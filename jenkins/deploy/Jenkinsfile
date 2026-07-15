@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Wait for Stack Ready') {
             steps {
-                sh(script: 'aws cloudformation wait stack-update-complete --region eu-west-1 --stack-name LaundrySite', returnStatus: true)
+                sh(script: 'aws cloudformation wait stack-update-complete --region eu-west-1 --stack-name HomeSite', returnStatus: true)
             }
         }
         stage('CDK Deploy') {
