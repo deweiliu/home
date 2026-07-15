@@ -5,6 +5,7 @@ import { LaundrySiteStack } from '../lib/laundry-site-stack';
 
 const app = new App();
 new LaundrySiteStack(app, 'HomeSite', {
+  stackName: app.node.tryGetContext('deployStackName'),
   tags: { service: 'laundry-site' },
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,

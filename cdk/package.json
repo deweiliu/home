@@ -8,8 +8,8 @@
   },
   "scripts": {
     "synth": "cdk synth",
-    "diff": "cdk diff",
-    "deploy": "cdk deploy --ci --require-approval never",
+    "diff": "cdk diff -c deployStackName=LaundrySite",
+    "deploy": "cdk deploy --ci --require-approval never -c deployStackName=LaundrySite",
     "test": "jest"
   },
   "devDependencies": {
