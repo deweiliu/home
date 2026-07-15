@@ -15,21 +15,32 @@
     <main class="w3-container page home-page">
         <h1>Home Tasks</h1>
 
+        <nav class="site-menu" aria-label="Main menu">
+            <a href="/" aria-current="page">Home</a>
+            <a href="/laundry.html">Laundry</a>
+            <a href="/guinea-pigs.html">Guinea pigs</a>
+            <a href="/rules.html">Rules</a>
+        </nav>
+
         <p>Choose a task to record it, check its 40-hour status, or view its history.</p>
 
-        <nav class="task-grid" aria-label="Home tasks">
-            <a class="task-link" href="/laundry.html">
-                <span class="task-link-title">Laundry</span>
-                <span>Record when the laundry is started.</span>
-                <span class="task-link-action">Open laundry →</span>
-            </a>
+        <section class="task-grid" aria-label="Home tasks">
+            <article class="task-card">
+                <h2>Laundry</h2>
+                <p>Record when the laundry is started.</p>
+                <a class="w3-button w3-blue w3-round task-record-link" href="/laundry.html">
+                    Record laundry
+                </a>
+            </article>
 
-            <a class="task-link" href="/guinea-pigs.html">
-                <span class="task-link-title">Guinea pig cleaning</span>
-                <span>Record when the guinea pigs are cleaned.</span>
-                <span class="task-link-action">Open guinea pig cleaning →</span>
-            </a>
-        </nav>
+            <article class="task-card">
+                <h2>Guinea pig cleaning</h2>
+                <p>Record when the guinea pigs are cleaned.</p>
+                <a class="w3-button w3-blue w3-round task-record-link" href="/guinea-pigs.html">
+                    Record guinea pig cleaning
+                </a>
+            </article>
+        </section>
 
         <p class="rules-link"><a href="/rules.html">View the task rules</a></p>
         <p class="footer"><a href="https://dliu.com">Back to dliu.com</a></p>
