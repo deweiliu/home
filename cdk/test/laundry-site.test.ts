@@ -26,7 +26,7 @@ test('creates the static site and timestamp API', () => {
   });
   template.hasResourceProperties('AWS::Lambda::Function', {
     Code: {
-      ZipFile: Match.stringLikeRegexp('guinea-pigs'),
+      ZipFile: Match.stringLikeRegexp('kaka-teeth'),
     },
     Runtime: 'nodejs22.x',
   });

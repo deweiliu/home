@@ -15,6 +15,18 @@ const taskDefinitions = {
         recordButtonLabel: "I cleaned the guinea pigs",
         recordFallback: "Guinea pig cleaning recorded successfully.",
     },
+    "hang-clothes": {
+        label: "晾衣服",
+        noun: "晾衣服",
+        recordButtonLabel: "我晾好衣服了",
+        recordFallback: "已记录晾衣服。",
+    },
+    "kaka-teeth": {
+        label: "Kaka 刷牙",
+        noun: "Kaka 刷牙",
+        recordButtonLabel: "Kaka 刷牙完成",
+        recordFallback: "已记录 Kaka 刷牙。",
+    },
 };
 
 const taskControllers = Array.from(document.querySelectorAll("[data-task]")).map((panel) => {

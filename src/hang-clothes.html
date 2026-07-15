@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>晾衣服 | Home Tasks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" type="image/png" href="https://files.dliu.com/dliu.com/favicon.png">
+    <meta name="theme-color" content="#40B1FA">
+</head>
+
+<body>
+    <main class="w3-container page">
+        <p class="page-navigation"><a href="/">← Home Tasks</a> · <a href="/rules.html">Rules</a></p>
+
+        <section class="task-panel child-task-panel" data-task="hang-clothes" aria-labelledby="hang-clothes-heading">
+            <h1 id="hang-clothes-heading">晾衣服</h1>
+            <p>晾好衣服后记录时间。</p>
+            <button class="w3-button w3-blue w3-round" data-action="record" type="button">
+                我晾好衣服了
+            </button>
+            <p class="message" data-role="message" role="status" aria-live="polite"></p>
+
+            <section class="status-section" aria-labelledby="hang-clothes-status-heading">
+                <h2 id="hang-clothes-status-heading">40-hour status</h2>
+                <div class="status-card loading" data-role="status">Loading&hellip;</div>
+            </section>
+
+            <section aria-labelledby="hang-clothes-history-heading">
+                <div class="history-heading">
+                    <h2 id="hang-clothes-history-heading">晾衣服记录</h2>
+                    <button class="w3-button w3-small w3-light-grey w3-round" data-action="refresh" type="button">
+                        Refresh
+                    </button>
+                </div>
+                <p data-role="empty" hidden>还没有晾衣服记录。</p>
+                <ol class="timestamp-list" data-role="history" aria-live="polite"></ol>
+            </section>
+        </section>
+    </main>
+
+    <script src="/app.js"></script>
+</body>
+
+</html>
