@@ -1,15 +1,15 @@
-# [Home Tasks](https://laundry.dliu.com)
+# [Home Tasks](https://home.dliu.com)
 
 A small website for recording recurring home tasks. The home page links to separate laundry and guinea pig cleaning trackers, including independent rolling 40-hour targets for both.
 
-The current user-facing rules are documented at [`/rules.html`](https://laundry.dliu.com/rules.html).
+The current user-facing rules are documented at [`/rules.html`](https://home.dliu.com/rules.html).
 
 ## Architecture
 
 The project follows the `home-site` layout:
 
 - `src/` contains the static webpage.
-- CloudFront serves the site from a private S3 bucket at `laundry.dliu.com`.
+- CloudFront serves the site from a private S3 bucket at `home.dliu.com`.
 - `POST /api/timestamps` records the server's current time for the selected task through a Lambda Function URL.
 - `GET /api/timestamps` returns the selected task's latest 20 timestamps from DynamoDB.
 - `DELETE /api/timestamps` deletes a selected task record during its first hour, after browser confirmation.

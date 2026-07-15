@@ -23,7 +23,7 @@ export class LaundrySiteStack extends Stack {
     super(scope, id, props);
 
     const rootDomain = Fn.importValue('MainDomain');
-    const domainName = `laundry.${rootDomain}`;
+    const domainName = `home.${rootDomain}`;
     const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'ImportedHostedZone', {
       zoneName: rootDomain,
       hostedZoneId: Fn.importValue('MainHostedZoneId'),
@@ -295,12 +295,12 @@ exports.handler = async (event, context) => {
 
     new route53.ARecord(this, 'SiteAliasRecord', {
       zone: hostedZone,
-      recordName: 'laundry',
+      recordName: 'home',
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
     });
     new route53.AaaaRecord(this, 'SiteAliasIpv6Record', {
       zone: hostedZone,
-      recordName: 'laundry',
+      recordName: 'home',
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
     });
 
