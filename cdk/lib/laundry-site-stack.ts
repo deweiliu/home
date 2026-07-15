@@ -49,8 +49,8 @@ const oneHourInMilliseconds = 60 * 60 * 1000;
 const tasks = {
   'laundry': { label: 'Laundry' },
   'guinea-pigs': { label: 'Guinea pig cleaning' },
-  'hang-clothes': { label: '晾衣服' },
-  'kaka-teeth': { label: 'Kaka 刷牙' },
+  'hang-clothes': { label: 'Hanging clothes' },
+  'kaka-teeth': { label: 'Kaka teeth brushing' },
 };
 
 exports.handler = async (event, context) => {

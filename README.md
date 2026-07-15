@@ -1,6 +1,6 @@
 # [Home Tasks](https://home.dliu.com)
 
-A small website for recording recurring home tasks. The home page links to separate trackers for laundry, guinea pig cleaning, 晾衣服, and Kaka 刷牙. Laundry and guinea pig cleaning use rolling 40-hour targets, 晾衣服 uses 45 hours, and Kaka 刷牙 uses 100 hours.
+A small website for recording recurring home tasks. The home page links to separate trackers for laundry, guinea pig cleaning, hanging clothes, and Kaka teeth brushing. Laundry and guinea pig cleaning use rolling 40-hour targets, hanging clothes uses 45 hours, and Kaka teeth brushing uses 100 hours.
 
 The current user-facing rules are documented at [`/rules.html`](https://home.dliu.com/rules.html).
 
