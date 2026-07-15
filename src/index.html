@@ -6,73 +6,34 @@
     <title>Home Tasks</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <link rel="icon" type="image/png" href="https://files.dliu.com/dliu.com/favicon.png">
     <meta name="theme-color" content="#40B1FA">
 </head>
 
 <body>
-    <main class="w3-container page">
-        <h1><a href="/">Home Tasks</a></h1>
+    <main class="w3-container page home-page">
+        <h1>Home Tasks</h1>
 
-        <p>Record each task after starting or completing it.</p>
-        <p>The server records the time and tracks each rolling 40-hour target independently.</p>
-        <p><a href="/rules.html">View the task rules</a>.</p>
+        <p>Choose a task to record it, check its 40-hour status, or view its history.</p>
 
-        <section class="task-panel" data-task="laundry" aria-labelledby="laundry-heading">
-            <h2 id="laundry-heading">Laundry</h2>
-            <p>Record the time after starting the laundry.</p>
-            <button class="w3-button w3-blue w3-round" data-action="record" type="button">
-                I started the laundry
-            </button>
-            <p class="message" data-role="message" role="status" aria-live="polite"></p>
+        <nav class="task-grid" aria-label="Home tasks">
+            <a class="task-link" href="/laundry.html">
+                <span class="task-link-title">Laundry</span>
+                <span>Record when the laundry is started.</span>
+                <span class="task-link-action">Open laundry →</span>
+            </a>
 
-            <section class="status-section" aria-labelledby="laundry-status-heading">
-                <h3 id="laundry-status-heading">40-hour status</h3>
-                <div class="status-card loading" data-role="status">Loading&hellip;</div>
-            </section>
+            <a class="task-link" href="/guinea-pigs.html">
+                <span class="task-link-title">Guinea pig cleaning</span>
+                <span>Record when the guinea pigs are cleaned.</span>
+                <span class="task-link-action">Open guinea pig cleaning →</span>
+            </a>
+        </nav>
 
-            <section aria-labelledby="laundry-history-heading">
-                <div class="history-heading">
-                    <h3 id="laundry-history-heading">Laundry history</h3>
-                    <button class="w3-button w3-small w3-light-grey w3-round" data-action="refresh" type="button">
-                        Refresh
-                    </button>
-                </div>
-                <p data-role="empty" hidden>No laundry has been recorded yet.</p>
-                <ol class="timestamp-list" data-role="history" aria-live="polite"></ol>
-            </section>
-        </section>
-
-        <section class="task-panel" data-task="guinea-pigs" aria-labelledby="guinea-pigs-heading">
-            <h2 id="guinea-pigs-heading">Guinea pig cleaning</h2>
-            <p>Record the time after cleaning the guinea pigs.</p>
-            <button class="w3-button w3-blue w3-round" data-action="record" type="button">
-                I cleaned the guinea pigs
-            </button>
-            <p class="message" data-role="message" role="status" aria-live="polite"></p>
-
-            <section class="status-section" aria-labelledby="guinea-pigs-status-heading">
-                <h3 id="guinea-pigs-status-heading">40-hour status</h3>
-                <div class="status-card loading" data-role="status">Loading&hellip;</div>
-            </section>
-
-            <section aria-labelledby="guinea-pigs-history-heading">
-                <div class="history-heading">
-                    <h3 id="guinea-pigs-history-heading">Guinea pig cleaning history</h3>
-                    <button class="w3-button w3-small w3-light-grey w3-round" data-action="refresh" type="button">
-                        Refresh
-                    </button>
-                </div>
-                <p data-role="empty" hidden>No guinea pig cleaning has been recorded yet.</p>
-                <ol class="timestamp-list" data-role="history" aria-live="polite"></ol>
-            </section>
-        </section>
-
+        <p class="rules-link"><a href="/rules.html">View the task rules</a></p>
         <p class="footer"><a href="https://dliu.com">Back to dliu.com</a></p>
     </main>
-
-    <script src="app.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 # [Home Tasks](https://laundry.dliu.com)
 
-A small website for recording recurring home tasks. It currently tracks laundry and guinea pig cleaning independently, including rolling 40-hour targets for both.
+A small website for recording recurring home tasks. The home page links to separate laundry and guinea pig cleaning trackers, including independent rolling 40-hour targets for both.
 
 The current user-facing rules are documented at [`/rules.html`](https://laundry.dliu.com/rules.html).
 
