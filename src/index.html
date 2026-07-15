@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Laundry Record</title>
+    <title>Home Tasks</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="styles.css">
@@ -13,34 +13,60 @@
 
 <body>
     <main class="w3-container page">
-        <h1><a href="/">Laundry Record</a></h1>
+        <h1><a href="/">Home Tasks</a></h1>
 
-        <p>Use this page to record after starting the laundry</p>
-        <p>The time is recorded by the server and shown below.</p>
-        <p><a href="/rules.html">View the laundry rules</a>.</p>
+        <p>Record each task after starting or completing it.</p>
+        <p>The server records the time and tracks each rolling 40-hour target independently.</p>
+        <p><a href="/rules.html">View the task rules</a>.</p>
 
-        <section class="record-section" aria-labelledby="record-heading">
-            <h2 id="record-heading">Record laundry</h2>
-            <button id="record-button" class="w3-button w3-blue w3-round" type="button">
+        <section class="task-panel" data-task="laundry" aria-labelledby="laundry-heading">
+            <h2 id="laundry-heading">Laundry</h2>
+            <p>Record the time after starting the laundry.</p>
+            <button class="w3-button w3-blue w3-round" data-action="record" type="button">
                 I started the laundry
             </button>
-            <p id="message" class="message" role="status" aria-live="polite"></p>
+            <p class="message" data-role="message" role="status" aria-live="polite"></p>
+
+            <section class="status-section" aria-labelledby="laundry-status-heading">
+                <h3 id="laundry-status-heading">40-hour status</h3>
+                <div class="status-card loading" data-role="status">Loading&hellip;</div>
+            </section>
+
+            <section aria-labelledby="laundry-history-heading">
+                <div class="history-heading">
+                    <h3 id="laundry-history-heading">Laundry history</h3>
+                    <button class="w3-button w3-small w3-light-grey w3-round" data-action="refresh" type="button">
+                        Refresh
+                    </button>
+                </div>
+                <p data-role="empty" hidden>No laundry has been recorded yet.</p>
+                <ol class="timestamp-list" data-role="history" aria-live="polite"></ol>
+            </section>
         </section>
 
-        <section class="status-section" aria-labelledby="status-heading">
-            <h2 id="status-heading">40-hour status</h2>
-            <div id="status-card" class="status-card loading">Loading&hellip;</div>
-        </section>
+        <section class="task-panel" data-task="guinea-pigs" aria-labelledby="guinea-pigs-heading">
+            <h2 id="guinea-pigs-heading">Guinea pig cleaning</h2>
+            <p>Record the time after cleaning the guinea pigs.</p>
+            <button class="w3-button w3-blue w3-round" data-action="record" type="button">
+                I cleaned the guinea pigs
+            </button>
+            <p class="message" data-role="message" role="status" aria-live="polite"></p>
 
-        <section aria-labelledby="history-heading">
-            <div class="history-heading">
-                <h2 id="history-heading">Laundry history</h2>
-                <button id="refresh-button" class="w3-button w3-small w3-light-grey w3-round" type="button">
-                    Refresh
-                </button>
-            </div>
-            <p id="empty-message" hidden>No laundry has been recorded yet.</p>
-            <ol id="timestamp-list" class="timestamp-list" aria-live="polite"></ol>
+            <section class="status-section" aria-labelledby="guinea-pigs-status-heading">
+                <h3 id="guinea-pigs-status-heading">40-hour status</h3>
+                <div class="status-card loading" data-role="status">Loading&hellip;</div>
+            </section>
+
+            <section aria-labelledby="guinea-pigs-history-heading">
+                <div class="history-heading">
+                    <h3 id="guinea-pigs-history-heading">Guinea pig cleaning history</h3>
+                    <button class="w3-button w3-small w3-light-grey w3-round" data-action="refresh" type="button">
+                        Refresh
+                    </button>
+                </div>
+                <p data-role="empty" hidden>No guinea pig cleaning has been recorded yet.</p>
+                <ol class="timestamp-list" data-role="history" aria-live="polite"></ol>
+            </section>
         </section>
 
         <p class="footer"><a href="https://dliu.com">Back to dliu.com</a></p>

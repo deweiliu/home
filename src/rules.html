@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Laundry Rules</title>
+    <title>Home Task Rules</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="styles.css">
@@ -13,17 +13,25 @@
 
 <body>
     <main class="w3-container page rules-page">
-        <h1><a href="/">Laundry Rules</a></h1>
+        <h1><a href="/">Home Task Rules</a></h1>
 
-        <p>These rules explain how laundry records work on this website.</p>
+        <p>These rules explain how task records work on this website.</p>
+
+        <section aria-labelledby="task-rules">
+            <h2 id="task-rules">Tasks</h2>
+            <ol>
+                <li>Record laundry after starting it.</li>
+                <li>Record guinea pig cleaning after cleaning the guinea pigs.</li>
+                <li>Each task has its own rolling 40-hour target.</li>
+            </ol>
+        </section>
 
         <section aria-labelledby="recording-rules">
-            <h2 id="recording-rules">Recording laundry</h2>
+            <h2 id="recording-rules">Recording a task</h2>
             <ol>
-                <li>Record the laundry after starting it.</li>
                 <li>The server records the time; the time on the visitor's device is not used.</li>
-                <li>Two laundry records cannot be created within one hour of each other.</li>
-                <li>The goal is to record at least one laundry during every rolling 40-hour period.</li>
+                <li>Two records for the same task cannot be created within one hour of each other.</li>
+                <li>Recording one task does not prevent the other task from being recorded.</li>
             </ol>
         </section>
 
@@ -39,13 +47,13 @@
         <section aria-labelledby="history-rules">
             <h2 id="history-rules">History and access</h2>
             <ol>
-                <li>The history displays the 20 most recent laundry records, newest first.</li>
+                <li>Each history displays its 20 most recent records, newest first.</li>
                 <li>Displayed times use the visitor's local time zone.</li>
-                <li>Anyone with access to this website can record laundry and delete eligible records.</li>
+                <li>Anyone with access to this website can record tasks and delete eligible records.</li>
             </ol>
         </section>
 
-        <p class="footer"><a href="/">Back to Laundry Record</a></p>
+        <p class="footer"><a href="/">Back to Home Tasks</a></p>
     </main>
 </body>
 

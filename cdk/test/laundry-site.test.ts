@@ -26,7 +26,7 @@ test('creates the static site and timestamp API', () => {
   });
   template.hasResourceProperties('AWS::Lambda::Function', {
     Code: {
-      ZipFile: Match.stringLikeRegexp('DeleteItemCommand'),
+      ZipFile: Match.stringLikeRegexp('guinea-pigs'),
     },
     Runtime: 'nodejs22.x',
   });

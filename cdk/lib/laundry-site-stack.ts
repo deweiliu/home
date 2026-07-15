@@ -46,6 +46,10 @@ export class LaundrySiteStack extends Stack {
 const { DeleteItemCommand, DynamoDBClient, QueryCommand, TransactWriteItemsCommand } = require('@aws-sdk/client-dynamodb');
 const client = new DynamoDBClient({});
 const oneHourInMilliseconds = 60 * 60 * 1000;
+const tasks = {
+  'laundry': { label: 'Laundry' },
+  'guinea-pigs': { label: 'Guinea pig cleaning' },
+};
 
 exports.handler = async (event, context) => {
   const headers = {
@@ -55,6 +59,20 @@ exports.handler = async (event, context) => {
 
   try {
     const method = event.requestContext?.http?.method || event.httpMethod;
+    let requestBody = {};
+    if (method === 'POST' || method === 'DELETE') {
+      try {
+        requestBody = JSON.parse(event.body || '{}');
+      } catch {
+        return { statusCode: 400, headers, body: JSON.stringify({ message: 'Invalid request body.' }) };
+      }
+    }
+
+    const task = requestBody.task || event.queryStringParameters?.task || 'laundry';
+    const taskConfig = tasks[task];
+    if (!taskConfig) {
+      return { statusCode: 400, headers, body: JSON.stringify({ message: 'Unknown task.' }) };
+    }
 
     if (method === 'POST') {
       const now = Date.now();
@@ -64,7 +82,7 @@ exports.handler = async (event, context) => {
       const latestResult = await client.send(new QueryCommand({
         TableName: process.env.TABLE_NAME,
         KeyConditionExpression: 'recordType = :recordType',
-        ExpressionAttributeValues: { ':recordType': { S: 'laundry' } },
+        ExpressionAttributeValues: { ':recordType': { S: task } },
         ProjectionExpression: '#timestamp',
         ExpressionAttributeNames: { '#timestamp': 'timestamp' },
         ScanIndexForward: false,
@@ -77,7 +95,7 @@ exports.handler = async (event, context) => {
           statusCode: 409,
           headers,
           body: JSON.stringify({
-            message: 'Laundry was already recorded within the last hour. Please wait before recording again.',
+            message: taskConfig.label + ' was already recorded within the last hour. Please wait before recording again.',
           }),
         };
       }
@@ -89,7 +107,7 @@ exports.handler = async (event, context) => {
               Put: {
                 TableName: process.env.TABLE_NAME,
                 Item: {
-                  recordType: { S: 'laundry-control' },
+                  recordType: { S: task + '-control' },
                   recordId: { S: 'latest' },
                   timestamp: { S: timestamp },
                 },
@@ -102,7 +120,7 @@ exports.handler = async (event, context) => {
               Put: {
                 TableName: process.env.TABLE_NAME,
                 Item: {
-                  recordType: { S: 'laundry' },
+                  recordType: { S: task },
                   recordId: { S: timestamp + '#' + context.awsRequestId },
                   timestamp: { S: timestamp },
                 },
@@ -116,7 +134,7 @@ exports.handler = async (event, context) => {
             statusCode: 409,
             headers,
             body: JSON.stringify({
-              message: 'Laundry was already recorded within the last hour. Please wait before recording again.',
+              message: taskConfig.label + ' was already recorded within the last hour. Please wait before recording again.',
             }),
           };
         }
@@ -127,7 +145,7 @@ exports.handler = async (event, context) => {
         statusCode: 201,
         headers,
         body: JSON.stringify({
-          message: 'Laundry recorded successfully.',
+          message: taskConfig.label + ' recorded successfully.',
           timestamp,
         }),
       };
@@ -137,7 +155,7 @@ exports.handler = async (event, context) => {
       const result = await client.send(new QueryCommand({
         TableName: process.env.TABLE_NAME,
         KeyConditionExpression: 'recordType = :recordType',
-        ExpressionAttributeValues: { ':recordType': { S: 'laundry' } },
+        ExpressionAttributeValues: { ':recordType': { S: task } },
         ProjectionExpression: 'recordId, #timestamp',
         ExpressionAttributeNames: { '#timestamp': 'timestamp' },
         ScanIndexForward: false,
@@ -152,13 +170,6 @@ exports.handler = async (event, context) => {
     }
 
     if (method === 'DELETE') {
-      let requestBody;
-      try {
-        requestBody = JSON.parse(event.body || '{}');
-      } catch {
-        return { statusCode: 400, headers, body: JSON.stringify({ message: 'Invalid request body.' }) };
-      }
-
       const recordId = requestBody.id;
       if (typeof recordId !== 'string' || !recordId.includes('#')) {
         return { statusCode: 400, headers, body: JSON.stringify({ message: 'A valid record ID is required.' }) };
@@ -170,7 +181,7 @@ exports.handler = async (event, context) => {
         deleted = await client.send(new DeleteItemCommand({
           TableName: process.env.TABLE_NAME,
           Key: {
-            recordType: { S: 'laundry' },
+            recordType: { S: task },
             recordId: { S: recordId },
           },
           ConditionExpression: '#timestamp > :deleteCutoff',
@@ -184,7 +195,7 @@ exports.handler = async (event, context) => {
             statusCode: 403,
             headers,
             body: JSON.stringify({
-              message: 'Laundry records can only be deleted within one hour of being recorded.',
+              message: taskConfig.label + ' records can only be deleted within one hour of being recorded.',
             }),
           };
         }
@@ -192,7 +203,7 @@ exports.handler = async (event, context) => {
       }
 
       if (!deleted.Attributes) {
-        return { statusCode: 404, headers, body: JSON.stringify({ message: 'Laundry record not found.' }) };
+        return { statusCode: 404, headers, body: JSON.stringify({ message: taskConfig.label + ' record not found.' }) };
       }
 
       const deletedTimestamp = deleted.Attributes.timestamp.S;
@@ -200,7 +211,7 @@ exports.handler = async (event, context) => {
         await client.send(new DeleteItemCommand({
           TableName: process.env.TABLE_NAME,
           Key: {
-            recordType: { S: 'laundry-control' },
+            recordType: { S: task + '-control' },
             recordId: { S: 'latest' },
           },
           ConditionExpression: '#timestamp = :deletedTimestamp',
@@ -214,7 +225,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 200,
         headers,
-        body: JSON.stringify({ message: 'Laundry record deleted successfully.' }),
+        body: JSON.stringify({ message: taskConfig.label + ' record deleted successfully.' }),
       };
     }
 

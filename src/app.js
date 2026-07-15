@@ -2,78 +2,106 @@ const apiUrl = "/api/timestamps";
 const fortyHoursInMilliseconds = 40 * 60 * 60 * 1000;
 const oneHourInMilliseconds = 60 * 60 * 1000;
 
-const recordButton = document.querySelector("#record-button");
-const refreshButton = document.querySelector("#refresh-button");
-const message = document.querySelector("#message");
-const timestampList = document.querySelector("#timestamp-list");
-const emptyMessage = document.querySelector("#empty-message");
-const statusCard = document.querySelector("#status-card");
+const taskDefinitions = {
+    "laundry": {
+        label: "Laundry",
+        noun: "laundry",
+        recordButtonLabel: "I started the laundry",
+        recordFallback: "Laundry recorded successfully.",
+    },
+    "guinea-pigs": {
+        label: "Guinea pig cleaning",
+        noun: "guinea pig cleaning",
+        recordButtonLabel: "I cleaned the guinea pigs",
+        recordFallback: "Guinea pig cleaning recorded successfully.",
+    },
+};
 
-recordButton.addEventListener("click", recordLaundry);
-refreshButton.addEventListener("click", loadTimestamps);
+const taskControllers = Array.from(document.querySelectorAll("[data-task]")).map((panel) => {
+    const task = panel.dataset.task;
+    return {
+        task,
+        definition: taskDefinitions[task],
+        recordButton: panel.querySelector('[data-action="record"]'),
+        refreshButton: panel.querySelector('[data-action="refresh"]'),
+        message: panel.querySelector('[data-role="message"]'),
+        statusCard: panel.querySelector('[data-role="status"]'),
+        emptyMessage: panel.querySelector('[data-role="empty"]'),
+        timestampList: panel.querySelector('[data-role="history"]'),
+    };
+});
 
-async function recordLaundry() {
-    setBusy(true);
-    showMessage("Recording&hellip;");
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+taskControllers.forEach((controller) => {
+    controller.recordButton.addEventListener("click", () => recordTask(controller));
+    controller.refreshButton.addEventListener("click", () => loadTimestamps(controller));
+    loadTimestamps(controller);
+});
+
+async function recordTask(controller) {
+    setBusy(controller, true);
+    showMessage(controller, "Recording…");
+    const abortController = new AbortController();
+    const timeout = setTimeout(() => abortController.abort(), 10000);
 
     try {
         const response = await fetch(apiUrl, {
             method: "POST",
-            signal: controller.signal,
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ task: controller.task }),
+            signal: abortController.signal,
         });
         const result = await response.json().catch(() => ({}));
         if (!response.ok) {
-            throw new Error(result.message || "The server could not record the laundry.");
+            throw new Error(result.message || `The server could not record ${controller.definition.noun}.`);
         }
 
-        const serverMessage = result.message || "Laundry recorded successfully.";
+        const serverMessage = result.message || controller.definition.recordFallback;
         const recordedAt = result.timestamp ? ` Recorded at ${formatTimestamp(result.timestamp)}.` : "";
-        showMessage(`${serverMessage}${recordedAt}`, "success");
-        await loadTimestamps(false);
+        showMessage(controller, `${serverMessage}${recordedAt}`, "success");
+        await loadTimestamps(controller, false);
     } catch (error) {
         const errorMessage = error.name === "AbortError"
             ? "Recording took longer than 10 seconds. Refresh the history before trying again."
             : error.message || "Something went wrong. Please try again.";
-        showMessage(errorMessage, "error");
+        showMessage(controller, errorMessage, "error");
     } finally {
         clearTimeout(timeout);
-        setBusy(false);
+        setBusy(controller, false);
     }
 }
 
-async function loadTimestamps(showLoadingMessage = true) {
-    refreshButton.disabled = true;
+async function loadTimestamps(controller, showLoadingMessage = true) {
+    controller.refreshButton.disabled = true;
     if (showLoadingMessage) {
-        showMessage("Loading history&hellip;");
+        showMessage(controller, "Loading history…");
     }
 
     try {
-        const response = await fetch(apiUrl, { cache: "no-store" });
+        const url = `${apiUrl}?task=${encodeURIComponent(controller.task)}`;
+        const response = await fetch(url, { cache: "no-store" });
         if (!response.ok) {
-            throw new Error("The server could not load the laundry history.");
+            throw new Error(`The server could not load the ${controller.definition.noun} history.`);
         }
 
         const result = await response.json();
         const records = Array.isArray(result.records)
             ? result.records
             : (result.timestamps || []).map((timestamp) => ({ id: timestamp, timestamp }));
-        renderTimestamps(records);
-        renderStatus(records[0]?.timestamp);
-        if (showLoadingMessage) showMessage("");
+        renderTimestamps(controller, records);
+        renderStatus(controller, records[0]?.timestamp);
+        if (showLoadingMessage) showMessage(controller, "");
     } catch (error) {
-        showMessage(error.message || "Something went wrong. Please try again.", "error");
-        statusCard.className = "status-card empty";
-        statusCard.textContent = "Status unavailable.";
+        showMessage(controller, error.message || "Something went wrong. Please try again.", "error");
+        controller.statusCard.className = "status-card empty";
+        controller.statusCard.textContent = "Status unavailable.";
     } finally {
-        refreshButton.disabled = false;
+        controller.refreshButton.disabled = false;
     }
 }
 
-function renderTimestamps(records) {
-    timestampList.replaceChildren();
-    emptyMessage.hidden = records.length !== 0;
+function renderTimestamps(controller, records) {
+    controller.timestampList.replaceChildren();
+    controller.emptyMessage.hidden = records.length !== 0;
 
     records.forEach((record) => {
         const timestamp = record.timestamp;
@@ -94,44 +122,47 @@ function renderTimestamps(records) {
             deleteButton.type = "button";
             deleteButton.className = "w3-button w3-small w3-light-grey w3-round delete-button";
             deleteButton.textContent = "Delete";
-            deleteButton.setAttribute("aria-label", `Delete laundry record from ${formatTimestamp(timestamp)}`);
-            deleteButton.addEventListener("click", () => deleteRecord(record, deleteButton));
+            deleteButton.setAttribute(
+                "aria-label",
+                `Delete ${controller.definition.noun} record from ${formatTimestamp(timestamp)}`,
+            );
+            deleteButton.addEventListener("click", () => deleteRecord(controller, record, deleteButton));
             item.append(deleteButton);
         }
-        timestampList.append(item);
+        controller.timestampList.append(item);
     });
 }
 
-async function deleteRecord(record, button) {
+async function deleteRecord(controller, record, button) {
     const confirmed = window.confirm(
-        `Delete the laundry record from ${formatTimestamp(record.timestamp)}? This cannot be undone.`,
+        `Delete the ${controller.definition.noun} record from ${formatTimestamp(record.timestamp)}? This cannot be undone.`,
     );
     if (!confirmed) return;
 
     button.disabled = true;
     button.textContent = "Deleting…";
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+    const abortController = new AbortController();
+    const timeout = setTimeout(() => abortController.abort(), 10000);
 
     try {
         const response = await fetch(apiUrl, {
             method: "DELETE",
             headers: { "content-type": "application/json" },
-            body: JSON.stringify({ id: record.id }),
-            signal: controller.signal,
+            body: JSON.stringify({ task: controller.task, id: record.id }),
+            signal: abortController.signal,
         });
         const result = await response.json().catch(() => ({}));
         if (!response.ok) {
-            throw new Error(result.message || "The server could not delete the laundry record.");
+            throw new Error(result.message || `The server could not delete the ${controller.definition.noun} record.`);
         }
 
-        showMessage(result.message || "Laundry record deleted successfully.", "success");
-        await loadTimestamps(false);
+        showMessage(controller, result.message || "Record deleted successfully.", "success");
+        await loadTimestamps(controller, false);
     } catch (error) {
         const errorMessage = error.name === "AbortError"
             ? "Deletion took longer than 10 seconds. Refresh the history before trying again."
             : error.message || "Something went wrong. Please try again.";
-        showMessage(errorMessage, "error");
+        showMessage(controller, errorMessage, "error");
         button.disabled = false;
         button.textContent = "Delete";
     } finally {
@@ -139,10 +170,11 @@ async function deleteRecord(record, button) {
     }
 }
 
-function renderStatus(latestTimestamp) {
+function renderStatus(controller, latestTimestamp) {
+    const { statusCard, definition } = controller;
     if (!latestTimestamp) {
         statusCard.className = "status-card empty";
-        statusCard.textContent = "No laundry has been recorded yet.";
+        statusCard.textContent = `No ${definition.noun} has been recorded yet.`;
         return;
     }
 
@@ -156,11 +188,11 @@ function renderStatus(latestTimestamp) {
     if (remaining >= 0) {
         statusCard.className = "status-card good";
         title.textContent = `On track — ${formatDuration(remaining)} remaining`;
-        detail.textContent = `Next laundry should be recorded by ${formatTimestamp(deadline.toISOString())}.`;
+        detail.textContent = `Next ${definition.noun} should be recorded by ${formatTimestamp(deadline.toISOString())}.`;
     } else {
         statusCard.className = "status-card overdue";
         title.textContent = `Overdue by ${formatDuration(Math.abs(remaining))}`;
-        detail.textContent = `The last laundry was recorded ${formatTimestamp(latestTimestamp)}.`;
+        detail.textContent = `The last ${definition.noun} was recorded ${formatTimestamp(latestTimestamp)}.`;
     }
     statusCard.append(title, detail);
 }
@@ -195,15 +227,16 @@ function formatDuration(milliseconds) {
     return minutes === 0 ? `${hours}h` : `${hours}h ${minutes}m`;
 }
 
-function setBusy(busy) {
-    recordButton.disabled = busy;
-    recordButton.textContent = busy ? "Recording…" : "I did the laundry";
+function setBusy(controller, busy) {
+    controller.recordButton.disabled = busy;
+    controller.recordButton.textContent = busy ? "Recording…" : controller.definition.recordButtonLabel;
 }
 
-function showMessage(text, type = "") {
-    message.innerHTML = text;
-    message.className = `message ${type}`.trim();
+function showMessage(controller, text, type = "") {
+    controller.message.textContent = text;
+    controller.message.className = `message ${type}`.trim();
 }
 
-loadTimestamps();
-setInterval(() => loadTimestamps(false), 60000);
+setInterval(() => {
+    taskControllers.forEach((controller) => loadTimestamps(controller, false));
+}, 60000);
