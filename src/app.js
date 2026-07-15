@@ -1,29 +1,32 @@
 const apiUrl = "/api/timestamps";
-const fortyHoursInMilliseconds = 40 * 60 * 60 * 1000;
 const oneHourInMilliseconds = 60 * 60 * 1000;
 
 const taskDefinitions = {
     "laundry": {
         label: "Laundry",
         noun: "laundry",
+        targetHours: 40,
         recordButtonLabel: "I started the laundry",
         recordFallback: "Laundry recorded successfully.",
     },
     "guinea-pigs": {
         label: "Guinea pig cleaning",
         noun: "guinea pig cleaning",
+        targetHours: 40,
         recordButtonLabel: "I cleaned the guinea pigs",
         recordFallback: "Guinea pig cleaning recorded successfully.",
     },
     "hang-clothes": {
         label: "晾衣服",
         noun: "晾衣服",
+        targetHours: 45,
         recordButtonLabel: "我晾好衣服了",
         recordFallback: "已记录晾衣服。",
     },
     "kaka-teeth": {
         label: "Kaka 刷牙",
         noun: "Kaka 刷牙",
+        targetHours: 100,
         recordButtonLabel: "Kaka 刷牙完成",
         recordFallback: "已记录 Kaka 刷牙。",
     },
@@ -191,7 +194,8 @@ function renderStatus(controller, latestTimestamp) {
     }
 
     const latest = new Date(latestTimestamp);
-    const deadline = new Date(latest.getTime() + fortyHoursInMilliseconds);
+    const targetDuration = definition.targetHours * oneHourInMilliseconds;
+    const deadline = new Date(latest.getTime() + targetDuration);
     const remaining = deadline.getTime() - Date.now();
     const title = document.createElement("strong");
     const detail = document.createElement("span");
