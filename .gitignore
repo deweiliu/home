@@ -1,0 +1,31 @@
+# Dependencies and generated CDK output
+node_modules/
+cdk.out/
+cdk.context.json
+
+# Test and build output
+coverage/
+dist/
+*.tsbuildinfo
+cdk/bin/*.js
+cdk/bin/*.js.map
+cdk/bin/*.d.ts
+cdk/lib/*.js
+cdk/lib/*.js.map
+cdk/lib/*.d.ts
+cdk/test/*.js
+cdk/test/*.js.map
+cdk/test/*.d.ts
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and editor/OS metadata
+*.log
+.DS_Store
+.idea/
+.vscode/

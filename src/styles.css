@@ -1,0 +1,138 @@
+.page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding-top: 24px;
+    padding-bottom: 48px;
+}
+
+h1 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h2 {
+    font-size: 1.35rem;
+}
+
+.record-section,
+.status-section {
+    margin-top: 32px;
+}
+
+#record-button {
+    min-width: 190px;
+    padding: 12px 20px;
+}
+
+#record-button:disabled,
+#refresh-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.message {
+    min-height: 24px;
+    margin-top: 10px;
+}
+
+.message.error {
+    color: #b00020;
+}
+
+.message.success {
+    color: #16733f;
+}
+
+.status-card {
+    padding: 16px;
+    border-left: 5px solid #999;
+    background: #f1f1f1;
+}
+
+.status-card.good {
+    border-color: #2e9b59;
+    background: #eef9f1;
+}
+
+.status-card.overdue {
+    border-color: #d1493f;
+    background: #fff1f0;
+}
+
+.status-card.empty,
+.status-card.loading {
+    color: #666;
+}
+
+.status-card strong,
+.status-card span {
+    display: block;
+}
+
+.status-card span {
+    margin-top: 4px;
+    color: #555;
+}
+
+.history-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.history-heading h2 {
+    margin: 0;
+}
+
+.timestamp-list {
+    padding-left: 32px;
+}
+
+.timestamp-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 4px;
+    border-bottom: 1px solid #ddd;
+}
+
+.timestamp-list li > div {
+    min-width: 0;
+}
+
+.delete-button {
+    flex: 0 0 auto;
+    color: #b00020;
+}
+
+.timestamp-list time {
+    font-weight: 600;
+}
+
+.timestamp-list small {
+    display: block;
+    margin-top: 2px;
+    color: #666;
+}
+
+.footer {
+    margin-top: 48px;
+}
+
+.rules-page section {
+    margin-top: 32px;
+}
+
+.rules-page li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .timestamp-list li {
+        align-items: flex-start;
+    }
+}

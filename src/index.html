@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Laundry Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="https://files.dliu.com/dliu.com/favicon.png">
+    <meta name="theme-color" content="#40B1FA">
+</head>
+
+<body>
+    <main class="w3-container page">
+        <h1><a href="/">Laundry Record</a></h1>
+
+        <p>Use this page to record after starting the laundry</p>
+        <p>The time is recorded by the server and shown below.</p>
+        <p><a href="/rules.html">View the laundry rules</a>.</p>
+
+        <section class="record-section" aria-labelledby="record-heading">
+            <h2 id="record-heading">Record laundry</h2>
+            <button id="record-button" class="w3-button w3-blue w3-round" type="button">
+                I started the laundry
+            </button>
+            <p id="message" class="message" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="status-section" aria-labelledby="status-heading">
+            <h2 id="status-heading">40-hour status</h2>
+            <div id="status-card" class="status-card loading">Loading&hellip;</div>
+        </section>
+
+        <section aria-labelledby="history-heading">
+            <div class="history-heading">
+                <h2 id="history-heading">Laundry history</h2>
+                <button id="refresh-button" class="w3-button w3-small w3-light-grey w3-round" type="button">
+                    Refresh
+                </button>
+            </div>
+            <p id="empty-message" hidden>No laundry has been recorded yet.</p>
+            <ol id="timestamp-list" class="timestamp-list" aria-live="polite"></ol>
+        </section>
+
+        <p class="footer"><a href="https://dliu.com">Back to dliu.com</a></p>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

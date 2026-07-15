@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Laundry Rules</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="https://files.dliu.com/dliu.com/favicon.png">
+    <meta name="theme-color" content="#40B1FA">
+</head>
+
+<body>
+    <main class="w3-container page rules-page">
+        <h1><a href="/">Laundry Rules</a></h1>
+
+        <p>These rules explain how laundry records work on this website.</p>
+
+        <section aria-labelledby="recording-rules">
+            <h2 id="recording-rules">Recording laundry</h2>
+            <ol>
+                <li>Record the laundry after starting it.</li>
+                <li>The server records the time; the time on the visitor's device is not used.</li>
+                <li>Two laundry records cannot be created within one hour of each other.</li>
+                <li>The goal is to record at least one laundry during every rolling 40-hour period.</li>
+            </ol>
+        </section>
+
+        <section aria-labelledby="deletion-rules">
+            <h2 id="deletion-rules">Deleting a record</h2>
+            <ol>
+                <li>A record can be deleted only when it is less than one hour old.</li>
+                <li>The website asks for confirmation before deleting a record.</li>
+                <li>After one hour, the Delete button is removed and the server rejects deletion attempts.</li>
+            </ol>
+        </section>
+
+        <section aria-labelledby="history-rules">
+            <h2 id="history-rules">History and access</h2>
+            <ol>
+                <li>The history displays the 20 most recent laundry records, newest first.</li>
+                <li>Displayed times use the visitor's local time zone.</li>
+                <li>Anyone with access to this website can record laundry and delete eligible records.</li>
+            </ol>
+        </section>
+
+        <p class="footer"><a href="/">Back to Laundry Record</a></p>
+    </main>
+</body>
+
+</html>
