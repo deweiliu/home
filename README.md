@@ -8,7 +8,7 @@ The current user-facing rules are documented at [`/rules.html`](https://home.dli
 
 The project follows the `home-site` layout:
 
-- `src/` contains the static webpage.
+- `src/` contains the static webpages. The shared `menu.js` web component renders the same navigation menu on every page.
 - CloudFront serves the site from a private S3 bucket at `home.dliu.com`.
 - `POST /api/timestamps` records the server's current time for the selected task through a Lambda Function URL.
 - `GET /api/timestamps` returns the selected task's latest 20 timestamps from DynamoDB.

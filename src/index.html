@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="/styles.css">
+    <script src="/menu.js" defer></script>
     <link rel="icon" type="image/png" href="https://files.dliu.com/dliu.com/favicon.png">
     <meta name="theme-color" content="#40B1FA">
 </head>
@@ -15,14 +16,7 @@
     <main class="w3-container page home-page">
         <h1>Home Tasks</h1>
 
-        <nav class="site-menu" aria-label="Main menu">
-            <a href="/" aria-current="page">Home</a>
-            <a href="/laundry.html">Laundry</a>
-            <a href="/guinea-pigs.html">Guinea pigs</a>
-            <a href="/hang-clothes.html">Hang clothes</a>
-            <a href="/kaka-teeth.html">Kaka's teeth</a>
-            <a href="/rules.html">Rules</a>
-        </nav>
+        <site-menu></site-menu>
 
         <p>Choose a task to record it, check its schedule, or view its history.</p>
 
@@ -60,7 +54,18 @@
             </article>
         </section>
 
-        <p class="rules-link"><a href="/rules.html">View the task rules</a></p>
+        <section class="home-rules" aria-labelledby="home-rules-heading">
+            <h2 id="home-rules-heading">Rules</h2>
+            <ul>
+                <li>Laundry and guinea pig cleaning must each be recorded within every rolling 40 hours.</li>
+                <li>Hanging clothes must be recorded within every rolling 45 hours.</li>
+                <li>Kaka teeth brushing must be recorded within every rolling 100 hours.</li>
+                <li>The server records the time. Two records for the same task cannot be created within one hour.</li>
+                <li>A record can be deleted only during its first hour, after confirmation.</li>
+                <li>Each task displays its latest 20 records. Anyone with access to the site can record a task.</li>
+            </ul>
+            <p><a href="/rules.html">Read the full task rules</a></p>
+        </section>
         <p class="footer"><a href="https://dliu.com">Back to dliu.com</a></p>
     </main>
 </body>
