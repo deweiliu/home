@@ -1,6 +1,6 @@
 # [Home Tasks](https://home.dliu.com)
 
-A small website for recording recurring home tasks. The home page links to separate trackers for laundry, guinea pig cleaning, hanging clothes, and Kaka teeth brushing. Laundry and guinea pig cleaning use rolling 40-hour targets, hanging clothes uses 45 hours, and Kaka teeth brushing uses 100 hours.
+A small website for recording recurring home tasks. The home page links to separate trackers for laundry, guinea pig cleaning, hanging clothes, and Kaka teeth brushing. Laundry uses a rolling 40-hour target, guinea pig cleaning uses 70 hours, hanging clothes uses 45 hours, and Kaka teeth brushing uses 100 hours.
 
 The current user-facing rules are documented at [`/rules.html`](https://home.dliu.com/rules.html).
 
@@ -11,7 +11,7 @@ The project follows the `home-site` layout:
 - `src/` contains the static webpages. The shared `menu.js` web component renders the same navigation menu on every page.
 - CloudFront serves the site from a private S3 bucket at `home.dliu.com`.
 - `POST /api/timestamps` records the server's current time for the selected task through a Lambda Function URL.
-- `GET /api/timestamps` returns the selected task's latest 20 timestamps from DynamoDB.
+- `GET /api/timestamps` returns the selected task's latest 10 timestamps from DynamoDB.
 - `DELETE /api/timestamps` deletes a selected task record during its first hour, after browser confirmation.
 - DynamoDB atomically rejects attempts made within one hour of the previous record for the same task.
 - The DynamoDB table is retained if the CloudFormation stack is deleted.

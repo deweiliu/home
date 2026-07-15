@@ -12,7 +12,7 @@ const taskDefinitions = {
     "guinea-pigs": {
         label: "Guinea pig cleaning",
         noun: "guinea pig cleaning",
-        targetHours: 40,
+        targetHours: 70,
         recordButtonLabel: "Record 打扫猪猪",
         recordFallback: "Guinea pig cleaning recorded successfully.",
     },

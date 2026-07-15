@@ -161,7 +161,7 @@ exports.handler = async (event, context) => {
         ProjectionExpression: 'recordId, #timestamp',
         ExpressionAttributeNames: { '#timestamp': 'timestamp' },
         ScanIndexForward: false,
-        Limit: 20,
+        Limit: 10,
       }));
       const records = (result.Items || []).map((item) => ({
         id: item.recordId.S,
